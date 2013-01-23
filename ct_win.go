@@ -2,8 +2,6 @@
 
 package ct;
 
-import "C"
-
 import(
     "syscall"
     "unsafe"
