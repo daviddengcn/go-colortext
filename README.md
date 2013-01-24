@@ -1,4 +1,15 @@
-go-colortext
-============
+go-colortext package
+====================
 
-Change the color of console text.
+This is a package to change the color of the text and background in the console, working both in windows and other systems.
+
+Under windows, the console APIs are used, and otherwise ANSI text is used.
+
+Docs: http://godoc.org/github.com/daviddengcn/go-colortext
+
+Usage:
+```go
+ChangeColor(Red, true, White, false)
+ChangeColor(Green, false, None, false)
+ResetColor()
+```
