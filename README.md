@@ -5,7 +5,7 @@ This is a package to change the color of the text and background in the console,
 
 Under windows, the console APIs are used, and otherwise ANSI text is used.
 
-Docs: http://godoc.org/github.com/daviddengcn/go-colortext
+Docs: http://godoc.org/github.com/daviddengcn/go-colortext ([packages that import ct](http://godoc.org/github.com/daviddengcn/go-colortext?importers))
 
 Usage:
 ```go
