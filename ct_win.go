@@ -1,48 +1,47 @@
 // +build windows
 
-package ct;
+package ct
 
-import(
-    "syscall"
-    "unsafe"
+import (
+	"syscall"
+	"unsafe"
 )
 
-var fg_colors = []uint16 {
-    0,
-    0,
-    foreground_red,
-    foreground_green,
-    foreground_red | foreground_green,
-    foreground_blue,
-    foreground_red | foreground_blue,
-    foreground_green | foreground_blue,
-    foreground_red | foreground_green | foreground_blue}
+var fg_colors = []uint16{
+	0,
+	0,
+	foreground_red,
+	foreground_green,
+	foreground_red | foreground_green,
+	foreground_blue,
+	foreground_red | foreground_blue,
+	foreground_green | foreground_blue,
+	foreground_red | foreground_green | foreground_blue}
 
-var bg_colors = []uint16 {
-    0,
-    0,
-    background_red,
-    background_green,
-    background_red | background_green,
-    background_blue,
-    background_red | background_blue,
-    background_green | background_blue,
-    background_red | background_green | background_blue}
+var bg_colors = []uint16{
+	0,
+	0,
+	background_red,
+	background_green,
+	background_red | background_green,
+	background_blue,
+	background_red | background_blue,
+	background_green | background_blue,
+	background_red | background_green | background_blue}
 
 const (
-	foreground_blue            = uint16(0x0001)
-	foreground_green           = uint16(0x0002)
-	foreground_red             = uint16(0x0004)
-	foreground_intensity       = uint16(0x0008)
-	background_blue            = uint16(0x0010)
-	background_green           = uint16(0x0020)
-	background_red             = uint16(0x0040)
-	background_intensity       = uint16(0x0080)
-    
-    foreground_mask = foreground_blue | foreground_green | foreground_red | foreground_intensity
-    background_mask = background_blue | background_green | background_red | background_intensity
-)
+	foreground_blue      = uint16(0x0001)
+	foreground_green     = uint16(0x0002)
+	foreground_red       = uint16(0x0004)
+	foreground_intensity = uint16(0x0008)
+	background_blue      = uint16(0x0010)
+	background_green     = uint16(0x0020)
+	background_red       = uint16(0x0040)
+	background_intensity = uint16(0x0080)
 
+	foreground_mask = foreground_blue | foreground_green | foreground_red | foreground_intensity
+	background_mask = background_blue | background_green | background_red | background_intensity
+)
 
 var (
 	kernel32 = syscall.NewLazyDLL("kernel32.dll")
@@ -50,9 +49,9 @@ var (
 	procGetStdHandle               = kernel32.NewProc("GetStdHandle")
 	procSetConsoleTextAttribute    = kernel32.NewProc("SetConsoleTextAttribute")
 	procGetConsoleScreenBufferInfo = kernel32.NewProc("GetConsoleScreenBufferInfo")
-    
-    hStdout uintptr
-    initScreenInfo *console_screen_buffer_info
+
+	hStdout        uintptr
+	initScreenInfo *console_screen_buffer_info
 )
 
 func setConsoleTextAttribute(hConsoleOutput uintptr, wAttributes uint16) bool {
@@ -89,45 +88,45 @@ func getConsoleScreenBufferInfo(hConsoleOutput uintptr) *console_screen_buffer_i
 	return &csbi
 }
 
-const(
+const (
 	std_output_handle = uint32(-11 & 0xFFFFFFFF)
 )
 
 func init() {
 	kernel32 := syscall.NewLazyDLL("kernel32.dll")
-    
+
 	procGetStdHandle = kernel32.NewProc("GetStdHandle")
-    
+
 	hStdout, _, _ = procGetStdHandle.Call(uintptr(std_output_handle))
-    
-    initScreenInfo = getConsoleScreenBufferInfo(hStdout)
-	
+
+	initScreenInfo = getConsoleScreenBufferInfo(hStdout)
+
 	syscall.LoadDLL("")
 }
 
 func resetColor() {
-    setConsoleTextAttribute(hStdout, initScreenInfo.WAttributes)
+	setConsoleTextAttribute(hStdout, initScreenInfo.WAttributes)
 }
 
 func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
-    attr := uint16(0)
-    if fg == None || bg == None {
-        attr = getConsoleScreenBufferInfo(hStdout).WAttributes
-    } // if
-    
-    if fg != None {
-        attr = attr & ^foreground_mask | fg_colors[fg]
-        if fgBright {
-            attr |= foreground_intensity
-        } // if
-    } // if
-    
-    if bg != None {
-        attr = attr & ^background_mask | bg_colors[bg]
-        if bgBright {
-            attr |= background_intensity
-        } // if
-    } // if
-    
-    setConsoleTextAttribute(hStdout, attr)
+	attr := uint16(0)
+	if fg == None || bg == None {
+		attr = getConsoleScreenBufferInfo(hStdout).WAttributes
+	} // if
+
+	if fg != None {
+		attr = attr & ^foreground_mask | fg_colors[fg]
+		if fgBright {
+			attr |= foreground_intensity
+		} // if
+	} // if
+
+	if bg != None {
+		attr = attr & ^background_mask | bg_colors[bg]
+		if bgBright {
+			attr |= background_intensity
+		} // if
+	} // if
+
+	setConsoleTextAttribute(hStdout, attr)
 }
