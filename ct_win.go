@@ -105,12 +105,19 @@ func init() {
 }
 
 func resetColor() {
+	if initScreenInfo == nil { // No console info - Ex: stdout redirection
+		return
+	}
 	setConsoleTextAttribute(hStdout, initScreenInfo.WAttributes)
 }
 
 func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
 	attr := uint16(0)
 	if fg == None || bg == None {
+		cbufinfo := getConsoleScreenBufferInfo(hStdout)
+		if cbufinfo == nil { // No console info - Ex: stdout redirection
+			return
+		}
 		attr = getConsoleScreenBufferInfo(hStdout).WAttributes
 	} // if
 
