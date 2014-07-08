@@ -1,5 +1,7 @@
-go-colortext package
+go-colortext package [![GoDoc](http://go-search.org/view?id=github.com%2Fdaviddengcn%2Fgo-colortext)](http://go-search.org/badge?id=github.com%2Fdaviddengcn%2Fgo-colortext)
 ====================
+
+[![GoDoc](http://go-search.org/view?id=github.com%2Fdaviddengcn%2Fgo-colortext)](http://go-search.org/badge?id=github.com%2Fdaviddengcn%2Fgo-colortext)
 
 This is a package to change the color of the text and background in the console, working both under Windows and other systems.
 
