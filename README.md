@@ -9,9 +9,9 @@ Docs: http://godoc.org/github.com/daviddengcn/go-colortext ([packages that impor
 
 Usage:
 ```go
+Front(Green, false)
+fmt.Println("Green text starts here...")
 ChangeColor(Red, true, White, false)
-fmt.Println(...)
-ChangeColor(Green, false, None, false)
 fmt.Println(...)
 ResetColor()
 ```
