@@ -15,3 +15,7 @@ ChangeColor(Green, false, None, false)
 fmt.Println(...)
 ResetColor()
 ```
+
+LICENSE
+=======
+BSD license
