@@ -9,7 +9,7 @@ Docs: http://godoc.org/github.com/daviddengcn/go-colortext ([packages that impor
 
 Usage:
 ```go
-Front(Green, false)
+Foreground(Green, false)
 fmt.Println("Green text starts here...")
 ChangeColor(Red, true, White, false)
 fmt.Println(...)
