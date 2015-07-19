@@ -36,12 +36,12 @@ func ChangeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
 	changeColor(fg, fgBright, bg, bgBright)
 }
 
-// FrontColor changes the front color.
-func FrontColor(cl Color, bright bool) {
+// Foreground changes the foreground color.
+func Foreground(cl Color, bright bool) {
 	ChangeColor(cl, bright, None, false)
 }
 
-// BackColor changes the background color.
-func BackColor(cl Color, bright bool) {
+// Background changes the background color.
+func Background(cl Color, bright bool) {
 	ChangeColor(None, false, cl, bright)
 }

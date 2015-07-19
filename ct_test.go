@@ -25,7 +25,7 @@ func TestChangeColor(t *testing.T) {
 	fmt.Println("After reset.")
 }
 
-func TestFrontColor(t *testing.T) {
+func TestForeground(t *testing.T) {
 	ResetColor()
 	defer ResetColor()
 
@@ -45,16 +45,16 @@ func TestFrontColor(t *testing.T) {
 	for i := range colorToText {
 		cl := Color(i)
 		if cl != None {
-			FrontColor(cl, false)
+			Foreground(cl, false)
 			fmt.Print(colorToText[i], ",")
-			FrontColor(cl, true)
+			Foreground(cl, true)
 			fmt.Print(colorToText[i], ",")
 		}
 	}
 	fmt.Println()
 }
 
-func TestBackColor(t *testing.T) {
+func TestBackground(t *testing.T) {
 	ResetColor()
 	defer ResetColor()
 
@@ -74,9 +74,9 @@ func TestBackColor(t *testing.T) {
 	for i := range colorToText {
 		cl := Color(i)
 		if cl != None {
-			BackColor(cl, false)
+			Background(cl, false)
 			fmt.Print(colorToText[i], ",")
-			BackColor(cl, true)
+			Background(cl, true)
 			fmt.Print(colorToText[i], ",")
 		}
 	}
