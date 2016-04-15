@@ -18,4 +18,4 @@ ResetColor()
 
 LICENSE
 =======
-BSD license
+BSD/MIT license
