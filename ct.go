@@ -1,7 +1,7 @@
 /*
 ct package provides functions to change the color of console text.
 
-Under windows platform, the Console api is used. Under other systems, ANSI text mode is used.
+Under windows platform, the Console API is used. Under other systems, ANSI text mode is used.
 */
 package ct
 
@@ -21,9 +21,7 @@ const (
 	White
 )
 
-/*
-ResetColor resets the foreground and background to original colors
-*/
+// ResetColor resets the foreground and background to original colors
 func ResetColor() {
 	resetColor()
 }

@@ -41,14 +41,13 @@ func TestForeground(t *testing.T) {
 		Cyan:    "cyan",
 		White:   "white",
 	}
-
-	for i := range colorToText {
+	for i, txt := range colorToText {
 		cl := Color(i)
 		if cl != None {
 			Foreground(cl, false)
-			fmt.Print(colorToText[i], ",")
+			fmt.Print(txt, ",")
 			Foreground(cl, true)
-			fmt.Print(colorToText[i], ",")
+			fmt.Print(txt, ",")
 		}
 	}
 	fmt.Println()
@@ -70,14 +69,13 @@ func TestBackground(t *testing.T) {
 		Cyan:    "cyan",
 		White:   "white",
 	}
-
-	for i := range colorToText {
+	for i, txt := range colorToText {
 		cl := Color(i)
 		if cl != None {
 			Background(cl, false)
-			fmt.Print(colorToText[i], ",")
+			fmt.Print(txt, ",")
 			Background(cl, true)
-			fmt.Print(colorToText[i], ",")
+			fmt.Print(txt, ",")
 		}
 	}
 	fmt.Println()
