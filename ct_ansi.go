@@ -16,9 +16,6 @@ func resetColor() {
 }
 
 func ansiText(fg Color, fgBright bool, bg Color, bgBright bool) string {
-	if os.Getenv("TERM") == "dumb" {
-		return ""
-	}
 	if fg == None && bg == None {
 		return ""
 	}
