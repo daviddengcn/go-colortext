@@ -8,8 +8,12 @@ import (
 	"strconv"
 )
 
+func isDumpTerm() bool {
+	return os.Getenv("TERM") == "dumb"
+}
+
 func resetColor() {
-	if os.Getenv("TERM") == "dumb" {
+	if isDumpTerm() {
 		return
 	}
 	fmt.Print("\x1b[0m")
@@ -34,7 +38,7 @@ func ansiText(fg Color, fgBright bool, bg Color, bgBright bool) string {
 }
 
 func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
-	if os.Getenv("TERM") == "dumb" {
+	if isDumpTerm() {
 		return
 	}
 	if fg == None && bg == None {
