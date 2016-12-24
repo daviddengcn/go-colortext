@@ -32,6 +32,9 @@ func ansiText(fg Color, fgBright bool, bg Color, bgBright bool) string {
 	}
 	if bg != None {
 		s = strconv.AppendUint(append(s, ";"...), 40+(uint64)(bg-Black), 10)
+		if bgBright {
+			s = append(s, ";1"...)
+		}
 	}
 	s = append(s, "m"...)
 	return string(s)
