@@ -5,6 +5,15 @@ Under windows platform, the Console API is used. Under other systems, ANSI text 
 */
 package ct
 
+// Term is the type of terminal type to be set.
+type TermType int
+
+const (
+	DumbTerm = TermType(iota)
+	AnsiTerm
+	WinTerm
+)
+
 // Color is the type of color to be set.
 type Color int
 
@@ -21,9 +30,29 @@ const (
 	White
 )
 
+type ctInterface interface {
+	resetColor()
+	changeColor(fg Color, fgBright bool, bg Color, bgBright bool)
+}
+
+var (
+	Global ctInterface
+)
+
+func init() {
+	switch GetTerminal() {
+		case AnsiTerm:
+			Global = NewAnsi()
+		case WinTerm:
+			Global = NewWin()
+		default:
+			Global = NewDumb()
+	}
+}
+
 // ResetColor resets the foreground and background to original colors
 func ResetColor() {
-	resetColor()
+	Global.resetColor()
 }
 
 // ChangeColor sets the foreground and background colors. If the value of the color is None,
@@ -31,7 +60,7 @@ func ResetColor() {
 // If fgBright or bgBright is set true, corresponding color use bright color. bgBright may be
 // ignored in some OS environment.
 func ChangeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
-	changeColor(fg, fgBright, bg, bgBright)
+	Global.changeColor(fg, fgBright, bg, bgBright)
 }
 
 // Foreground changes the foreground color.
