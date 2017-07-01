@@ -13,11 +13,11 @@ func GetTerminal() TermType {
 	if os.Getenv("TERM") == "dumb" {
 		return DumbTerm
 	}
-	if isatty.IsTerminal(os.Stdout.Fd()) {
-		return WinTerm
-	}
 	if isatty.IsCygwinTerminal(os.Stdout.Fd()) {
 		return AnsiTerm
+	}
+	if isatty.IsTerminal(os.Stdout.Fd()) {
+		return WinTerm
 	}
 	return DumbTerm
 }
