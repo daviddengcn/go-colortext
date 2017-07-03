@@ -5,15 +5,6 @@ Under windows platform, the Console API is used. Under other systems, ANSI text 
 */
 package ct
 
-// Term is the type of terminal type to be set.
-type TermType int
-
-const (
-	DumbTerm = TermType(iota)
-	AnsiTerm
-	WinTerm
-)
-
 // Color is the type of color to be set.
 type Color int
 
@@ -40,14 +31,7 @@ var (
 )
 
 func init() {
-	switch GetTerminal() {
-		case AnsiTerm:
-			Global = NewAnsi()
-		case WinTerm:
-			Global = NewWin()
-		default:
-			Global = NewDumb()
-	}
+	Global = NewCT()
 }
 
 // ResetColor resets the foreground and background to original colors

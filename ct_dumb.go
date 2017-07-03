@@ -1,9 +1,9 @@
 package ct
 
 type ctDumb struct {
-} 
+}
 
-func NewDumb() *ctDumb {
+func NewDumb() ctInterface {
 	return &ctDumb{
 	}
 }

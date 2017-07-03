@@ -9,17 +9,17 @@ import (
 	"github.com/mattn/go-isatty"
 )
 
-func GetTerminal() TermType {
+func NewCT() ctInterface {
 	if os.Getenv("TERM") == "dumb" {
-		return DumbTerm
+		return NewDumb()
 	}
 	if isatty.IsCygwinTerminal(os.Stdout.Fd()) {
-		return AnsiTerm
+		return NewAnsi()
 	}
 	if isatty.IsTerminal(os.Stdout.Fd()) {
-		return WinTerm
+		return NewWin()
 	}
-	return DumbTerm
+	return NewDumb()
 }
 
 var fg_colors = []uint16{
