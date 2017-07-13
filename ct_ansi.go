@@ -1,23 +1,9 @@
-// +build !windows
-
 package ct
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 )
-
-func isDumbTerm() bool {
-	return os.Getenv("TERM") == "dumb"
-}
-
-func resetColor() {
-	if isDumbTerm() {
-		return
-	}
-	fmt.Print("\x1b[0m")
-}
 
 func ansiText(fg Color, fgBright bool, bg Color, bgBright bool) string {
 	if fg == None && bg == None {
@@ -40,10 +26,18 @@ func ansiText(fg Color, fgBright bool, bg Color, bgBright bool) string {
 	return string(s)
 }
 
-func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
-	if isDumbTerm() {
-		return
+type ctAnsi struct {
+} 
+
+func NewAnsi() *ctAnsi {
+	return &ctAnsi{
 	}
+}
+func (c *ctAnsi) resetColor() {
+	fmt.Print("\x1b[0m")
+}
+
+func (c *ctAnsi) changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
 	if fg == None && bg == None {
 		return
 	}

@@ -21,9 +21,22 @@ const (
 	White
 )
 
+type ctInterface interface {
+	resetColor()
+	changeColor(fg Color, fgBright bool, bg Color, bgBright bool)
+}
+
+var (
+	Global ctInterface
+)
+
+func init() {
+	Global = NewCT()
+}
+
 // ResetColor resets the foreground and background to original colors
 func ResetColor() {
-	resetColor()
+	Global.resetColor()
 }
 
 // ChangeColor sets the foreground and background colors. If the value of the color is None,
@@ -31,7 +44,7 @@ func ResetColor() {
 // If fgBright or bgBright is set true, corresponding color use bright color. bgBright may be
 // ignored in some OS environment.
 func ChangeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
-	changeColor(fg, fgBright, bg, bgBright)
+	Global.changeColor(fg, fgBright, bg, bgBright)
 }
 
 // Foreground changes the foreground color.
