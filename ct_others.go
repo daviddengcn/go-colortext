@@ -4,11 +4,10 @@ package ct
 
 import (
 	"os"
-	"github.com/mattn/go-isatty"
 )
 
 func NewCT() ctInterface {
-	if os.Getenv("TERM") == "dumb" || !isatty.IsTerminal(os.Stdout.Fd()) {
+	if os.Getenv("TERM") == "dumb" {
 		return NewDumb()
 	}
 	return NewAnsi()

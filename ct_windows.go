@@ -6,20 +6,17 @@ import (
 	"syscall"
 	"unsafe"
 	"os"
-	"github.com/mattn/go-isatty"
 )
 
 func NewCT() ctInterface {
-	if os.Getenv("TERM") == "dumb" {
+	envTerm := os.Getenv("TERM") 
+	if envTerm == "dumb"{
 		return NewDumb()
 	}
-	if isatty.IsCygwinTerminal(os.Stdout.Fd()) {
-		return NewAnsi()
-	}
-	if isatty.IsTerminal(os.Stdout.Fd()) {
+	if envTerm == "" || envTerm == "cygwin" {
 		return NewWin()
 	}
-	return NewDumb()
+	return NewAnsi()
 }
 
 var fg_colors = []uint16{
