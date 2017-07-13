@@ -5,7 +5,19 @@ package ct
 import (
 	"syscall"
 	"unsafe"
+	"os"
 )
+
+func NewCT() ctInterface {
+	envTerm := os.Getenv("TERM") 
+	if envTerm == "dumb"{
+		return NewDumb()
+	}
+	if envTerm == "" || envTerm == "cygwin" {
+		return NewWin()
+	}
+	return NewAnsi()
+}
 
 var fg_colors = []uint16{
 	0,
@@ -89,7 +101,10 @@ const (
 	std_output_handle = uint32(-11 & 0xFFFFFFFF)
 )
 
-func init() {
+type ctWin struct {
+} 
+
+func NewWin() *ctWin {
 	kernel32 := syscall.NewLazyDLL("kernel32.dll")
 
 	procGetStdHandle = kernel32.NewProc("GetStdHandle")
@@ -99,16 +114,18 @@ func init() {
 	initScreenInfo = getConsoleScreenBufferInfo(hStdout)
 
 	syscall.LoadDLL("")
+	return &ctWin{
+	}
 }
 
-func resetColor() {
+func (c *ctWin) resetColor() {
 	if initScreenInfo == nil { // No console info - Ex: stdout redirection
 		return
 	}
 	setConsoleTextAttribute(hStdout, initScreenInfo.WAttributes)
 }
 
-func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
+func (c *ctWin) changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
 	attr := uint16(0)
 	if fg == None || bg == None {
 		cbufinfo := getConsoleScreenBufferInfo(hStdout)
