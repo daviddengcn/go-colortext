@@ -26,12 +26,21 @@ const (
 	White
 )
 
-// Writer is the io.Writer where ANSI escape codes will be written to
+
+// Writer is where ANSI escapes codes will be written. If attached to terminal
+// on some systems (Windows) native terminal coloring will be used instead.
 var Writer io.Writer = os.Stdout
 
 // ResetColor resets the foreground and background to original colors
 func ResetColor() {
-	resetColor()
+	if Writer == nil {
+		return
+	}
+	if writerIsTerminal() {
+		resetColor()
+	} else {
+		ansiResetColor()
+	}
 }
 
 // ChangeColor sets the foreground and background colors. If the value of the color is None,
@@ -39,7 +48,14 @@ func ResetColor() {
 // If fgBright or bgBright is set true, corresponding color use bright color. bgBright may be
 // ignored in some OS environment.
 func ChangeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
-	changeColor(fg, fgBright, bg, bgBright)
+	if Writer == nil {
+		return
+	}
+	if writerIsTerminal() {
+		changeColor(fg, fgBright, bg, bgBright)
+	} else {
+		ansiChangeColor(fg, fgBright, bg, bgBright)
+	}
 }
 
 // Foreground changes the foreground color.

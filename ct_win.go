@@ -5,6 +5,7 @@ package ct
 import (
 	"syscall"
 	"unsafe"
+	"github.com/mattn/go-isatty"
 )
 
 var fg_colors = []uint16{
@@ -130,4 +131,13 @@ func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
 		}
 	}
 	setConsoleTextAttribute(hStdout, attr)
+}
+
+func writerIsTerminal() bool {
+	if v, ok := Writer.(*os.File); ok {
+		if isatty.IsTerminal(v.Fd()) {
+			return true
+		}
+	}
+	return false
 }

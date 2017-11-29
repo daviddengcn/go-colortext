@@ -3,6 +3,8 @@ package ct
 import (
 	"fmt"
 	"testing"
+	"io/ioutil"
+	"os"
 )
 
 func TestChangeColor(t *testing.T) {
@@ -79,4 +81,26 @@ func TestBackground(t *testing.T) {
 		}
 	}
 	fmt.Println()
+}
+
+func TestWriter(t *testing.T) {
+	colorFileName := "colors.asc"
+	colorFile, err := os.Create(colorFileName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(colorFileName)
+	Writer = colorFile
+	Foreground(Red, false)
+	fmt.Fprint(colorFile, "R")
+	Foreground(Green, false)
+	fmt.Fprint(colorFile, "G")
+	Foreground(Blue, false)
+	fmt.Fprint(colorFile, "B")
+	ResetColor()
+	contents, err := ioutil.ReadFile(colorFileName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Printf("%s\n", string(contents))
 }
