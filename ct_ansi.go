@@ -1,5 +1,3 @@
-// +build !windows
-
 package ct
 
 import (
@@ -12,7 +10,7 @@ func isDumbTerm() bool {
 	return os.Getenv("TERM") == "dumb"
 }
 
-func resetColor() {
+func ansiResetColor() {
 	if isDumbTerm() {
 		return
 	}
@@ -40,7 +38,7 @@ func ansiText(fg Color, fgBright bool, bg Color, bgBright bool) string {
 	return string(s)
 }
 
-func changeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
+func ansiChangeColor(fg Color, fgBright bool, bg Color, bgBright bool) {
 	if isDumbTerm() {
 		return
 	}

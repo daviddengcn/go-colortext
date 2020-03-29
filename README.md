@@ -16,6 +16,20 @@ fmt.Println(...)
 ct.ResetColor()
 ```
 
+To write to a file:
+```go
+colorFile, err := os.Create("colors.asc")
+ct.Writer = colorFile
+ct.Foreground(Red, false)
+fmt.Fprint(colorFile, "R")
+ct.Foreground(Green, false)
+fmt.Fprint(colorFile, "G")
+ct.Foreground(Blue, false)
+fmt.Fprint(colorFile, "B")
+ct.ResetColor()
+```
+
+
 LICENSE
 =======
 BSD/MIT license
